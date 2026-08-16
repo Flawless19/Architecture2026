@@ -1,0 +1,225 @@
+<mxfile host="65bd71144e">
+    <diagram id="Exsxo07i1ory9BCrTuAc" name="Страница-1">
+        <mxGraphModel dx="2070" dy="895" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="ДЗ: Декомпозиция системы «Интернет-магазин» на архитектурные слои" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#1a1a2e;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="30" width="1200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="instr" value="Задача: распределите все модули по соответствующим слоям. Добавьте стрелки зависимостей между слоями." style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=13;fontColor=#1a1a2e;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="90" width="800" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="pool_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9e6;strokeColor=#d6b656;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="160" width="1520" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="pool_title" value="📦 Модули системы (нераспределённые)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#7d6608;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="165" width="500" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="div1" value="" style="line;strokeWidth=2;strokeColor=#9e9e9e;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="67" y="340" width="1520" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="target_title" value="🎯 Целевая архитектура: разнесите модули по слоям" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#1a1a2e;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="330" width="700" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer1" value="Слой 1: Presentation Layer&#xa;(Уровень представления)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;fontSize=14;fontStyle=1;verticalAlign=top;opacity=40;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="370" width="1520" height="365" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer1_hint" value="Сюда помещаются модули, отвечающие за взаимодействие с пользователем и внешними клиентами" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#5a7a5a;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="270" y="710" width="1100" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer2" value="Слой 2: Business Logic Layer&#xa;(Уровень бизнес-логики)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;fontSize=14;fontStyle=1;verticalAlign=top;opacity=40;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="750" width="1520" height="490" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer2_hint" value="Сюда помещаются модули с бизнес-правилами, расчётами, оркестрацией процессов" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#7a6a00;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="270" y="1210" width="1100" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer3" value="Слой 3: Data Access Layer&#xa;(Уровень доступа к данным)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=3;fontSize=14;fontStyle=1;verticalAlign=top;opacity=40;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="1260" width="1520" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer3_hint" value="Сюда помещаются репозитории, DAO, кэш — всё, что читает и пишет данные в хранилища" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#1a5276;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="270" y="1420" width="1100" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer4" value="Слой 4: Infrastructure / Cross-Cutting Concerns&#xa;(Инфраструктура и сквозные сервисы)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=3;fontSize=14;fontStyle=1;verticalAlign=top;opacity=40;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="1490" width="1520" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer4_hint" value="Сюда помещаются сквозные сервисы: логирование, конфигурация, внешние интеграции, очереди, SMTP" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#7b241c;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="1660" width="1100" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;" parent="1" vertex="1">
+                    <mxGeometry x="1600" y="530" width="180" height="155" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_title" value="Легенда" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="1600" y="535" width="180" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg1" value="  Presentation" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1610" y="560" width="160" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg2" value="  Business Logic" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1610" y="592" width="160" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg3" value="  Data Access" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1610" y="624" width="160" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg4" value="  Infrastructure" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="1610" y="656" width="160" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_mobile" target="m_auth">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_mobile" value="📱 Mobile API&#xa;(REST for iOS/Android)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="620" y="440" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_ui" target="m_auth">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_ui" value="🖥️ Web UI&#xa;(React SPA)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="440" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_cart" value="🛒 Корзина покупок&#xa;(CartService)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="770" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_catalog" target="m_search">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_catalog" value="📋 Каталог товаров&#xa;(CatalogController)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="870" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_order" target="m_db_order">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_order" target="m_inventory">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_order" target="m_shipping">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_order" target="m_cart">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_order" target="m_discount">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" style="edgeStyle=none;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_order" target="m_payment">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_order" value="📝 Оформление заказа&#xa;(OrderManager)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="950" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_payment" target="m_payment_gw">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_payment" value="💳 Обработка платежей&#xa;(PaymentProcessor)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="1150" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_user" target="m_db_user">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_user" value="👤 Управление&#xa;пользователями (UserMgr)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1350" y="820" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_notif" target="m_email">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_notif" value="🔔 Уведомления&#xa;(NotificationService)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="1100" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_search" target="m_rating">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_search" target="m_db_product">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" style="edgeStyle=none;html=1;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_search" target="m_inventory">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_search" value="🔍 Поиск товаров&#xa;(SearchEngine)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="850" y="1080" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_rating" value="⭐ Отзывы и рейтинги&#xa;(ReviewService)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1100" y="980" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_db_product" value="🗄️ ProductRepository&#xa;(SQL: products)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="530" y="1330" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_db_order" value="🗄️ OrderRepository&#xa;(SQL: orders)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="1340" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_cache" value="⚡ Кэш сессий&#xa;(Redis SessionStore)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1290" y="1340" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_rest_api" target="m_cart">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_rest_api" target="m_user">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_rest_api" target="m_catalog">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_rest_api" target="m_order">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_rest_api" value="🌐 REST API Gateway&#xa;(HTTP Router)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="617" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_email" value="📧 Email-рассылка&#xa;(SMTP Client)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="1570" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_auth" target="m_rest_api">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_auth" target="m_cache">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1560" y="550"/>
+                            <mxPoint x="1560" y="1370"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m_auth" value="🔐 Аутентификация&#xa;(AuthService / JWT)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="523.5" width="160" height="58" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_inventory" value="📦 Склад / Остатки&#xa;(InventoryService)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="790" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_logger" value="📜 Логирование&#xa;(Logger / ELK)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="170" y="1570" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_config" value="⚙️ Конфигурация&#xa;(Config Service)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1160" y="1570" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_discount" target="m_search">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_discount" value="🏷️ Скидки и промокоды&#xa;(DiscountEngine)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="880" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_report" target="m_rating">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_report" target="m_inventory">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_report" value="📊 Аналитика и отчёты&#xa;(ReportService)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1020" y="810" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_payment_gw" value="🏦 Платёжный шлюз&#xa;(Stripe/ЮKassa Client)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="470" y="1570" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" style="edgeStyle=none;html=1;" edge="1" parent="1" source="m_shipping" target="m_notif">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_shipping" value="🚚 Доставка&#xa;(ShippingService)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="980" width="160" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="m_db_user" value="🗄️ UserRepository&#xa;(SQL: users)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="1330" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" style="edgeStyle=none;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m_order" target="m_notif">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,0 +1,75 @@
+@startuml
+!NEW_C4_STYLE = 1
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title МаркетХаб - диаграмма контейнеров (исправленная)
+
+Person(buyer, "Покупатель", "Просматривает каталог, оформляет заказы")
+Person(seller, "Продавец", "Размещает товары, управляет ценами и остатками")
+Person(admin, "Оператор поддержки", "Помогает пользователям")
+
+System_Ext(bank, "Платежный шлюз", "Обработка платежей")
+System_Ext(delivery, "Службы доставки", "Доставка заказов покупателю")
+System_Ext(crm, "CRM", "Хранение профилей клиентов и истории обращений")
+System_Ext(email_service, "Email-сервис", "Отправка email-писем")
+System_Ext(push_service, "Push-сервис", "Отправка push-уведомлений")
+
+Container_Boundary(marketplace, "МаркетХаб") {
+    Container(web_app, "Веб-приложение", "React, TypeScript", "Обеспечивает UI для покупателей, продавцов и админов")
+    Container(mobile_app, "Мобильное приложение", "React Native, TypeScript", "Предоставляет интерфейс для покупателей")
+    Container(api_gateway, "API Gateway", "Kong / Nginx", "Маршрутизация запросов, аутентификация, rate limiting")
+    Container(catalog_service, "Сервис каталога", "Spring Boot, Java", "Управление товарами и поиск")
+    Container(order_service, "Сервис заказов", "Spring Boot, Java", "Обработка заказов и статусов")
+    Container(payment_service, "Сервис платежей", "Spring Boot, Java", "Взаимодействие с платежным шлюзом")
+    Container(notification_service, "Сервис уведомлений", "Python, FastAPI", "Читает события из очереди и отправляет уведомления")
+    Container(user_service, "Сервис пользователей", "Spring Boot, Java", "Управление профилями и аутентификация")
+    
+    ContainerDb(postgres_db_products, "База данных: товары", "PostgreSQL", "Хранение данных о товарах")
+    ContainerDb(postgres_db_order, "База данных: заказы", "PostgreSQL", "Хранение данных о заказах")
+    ContainerDb(postgres_db_client, "База данных: клиенты", "PostgreSQL", "Хранение данных о клиентах: истории заказов и тп")
+    ContainerDb(db_orders_link, "Объектное хранилище: вложения карточек товаров", "MinIO / S3", "Хранение неструктурированных данных о товарах")
+    ContainerDb(cache_catalog, "Кэш каталога", "Redis", "Кэширование популярных товаров, категорий и результатов поиска")
+    
+    ContainerQueue(message_queue, "Очередь сообщений", "RabbitMQ", "Хранит события заказов для асинхронной обработки")
+}
+
+' Связи пользователей с UI
+Rel(buyer, web_app, "Использует", "HTTPS")
+Rel(buyer, mobile_app, "Использует", "HTTPS")
+Rel(seller, web_app, "Управляет товарами", "HTTPS")
+Rel(admin, web_app, "Работает с заказами", "HTTPS")
+
+' Связи UI с API Gateway
+Rel(web_app, api_gateway, "Отправляет запросы", "HTTPS/JSON")
+Rel(mobile_app, api_gateway, "Отправляет запросы", "HTTPS/JSON")
+
+' API Gateway маршрутизирует запросы к сервисам
+Rel(api_gateway, user_service, "Маршрутизирует запросы", "gRPC")
+Rel(api_gateway, catalog_service, "Маршрутизирует запросы", "gRPC")
+Rel(api_gateway, order_service, "Маршрутизирует запросы", "gRPC")
+Rel(api_gateway, payment_service, "Маршрутизирует запросы", "gRPC")
+
+' Сервисы читают/пишут в БД
+Rel(catalog_service, postgres_db_products, "Читает/пишет данные", "JDBC")
+Rel(order_service, postgres_db_order, "Читает/пишет данные", "JDBC")
+Rel(catalog_service, db_orders_link, "Читает/пишет данные", "S3 API")
+Rel(user_service, postgres_db_client, "Читает/пишет данные", "JDBC")
+
+' Кэширование каталога
+Rel(catalog_service, cache_catalog, "Кэширует популярные товары и результаты поиска", "Redis")
+Rel(api_gateway, cache_catalog, "Кэширует ответы API для каталога", "Redis")
+
+' Сервис заказов публикует события в очередь
+Rel(order_service, message_queue, "Публикует события о заказах", "AMQP")
+
+' Сервис уведомлений читает из очереди
+Rel(message_queue, notification_service, "Передаёт события", "AMQP (consume)")
+Rel(notification_service, email_service, "Отправляет email", "SMTP/REST")
+Rel(notification_service, push_service, "Отправляет push", "FCM/APNs")
+
+' Внешние системы
+Rel(payment_service, bank, "Выполняет платежи", "REST API")
+Rel(order_service, delivery, "Передаёт заказы на доставку", "gRPC")
+Rel(user_service, crm, "Синхронизирует профили клиентов", "REST API")
+
+@enduml
