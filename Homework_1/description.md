@@ -141,7 +141,7 @@ Redis для кэширования: популярные карточки то�
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 
-title МаркетХаб - диаграмма контейнеров (исправленная)
+title МаркетХаб - диаграмма контейнеров
 
 
 Person(buyer, "Покупатель", "Просматривает каталог, оформляет заказы")

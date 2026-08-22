@@ -2,7 +2,7 @@
 !NEW_C4_STYLE = 1
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-title МаркетХаб - диаграмма контейнеров (исправленная)
+title МаркетХаб - диаграмма контейнеров
 
 Person(buyer, "Покупатель", "Просматривает каталог, оформляет заказы")
 Person(seller, "Продавец", "Размещает товары, управляет ценами и остатками")
