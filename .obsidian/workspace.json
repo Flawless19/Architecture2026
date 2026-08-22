@@ -39,12 +39,14 @@
             "id": "d653781411bd136f",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Homework_4/Диаграмма таблиц.svg"
+                "file": "Homework_4/Solution.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Диаграмма таблиц"
+              "icon": "lucide-file",
+              "title": "Solution"
             }
           }
         ],
@@ -217,15 +219,16 @@
   },
   "active": "9e268c4c250e12e9",
   "lastOpenFiles": [
+    "Homework_4/Spec.md",
     "Homework_4/Диаграмма таблиц.svg",
     "Homework_4/Solution.md",
-    "Homework_4/Spec.md",
-    "README.md",
-    "Homework_4/Без названия.md",
+    "Homework_4/UML diagram.svg",
     "out/Homework_4/UML diagram/UML diagram.svg",
     "out/Homework_4/UML diagram",
     "out/Homework_4",
     "out",
+    "README.md",
+    "Homework_4/Без названия.md",
     "Homework_4/UML diagram.puml",
     "Homework_4/UML diagram",
     "Homework_4/UML diagramm",

@@ -10,6 +10,10 @@ entity "products" as products {
     seller_id
     price
     status
+    note "80% ACTIVE"
+    
+    .. Индексы ..
+    `RUM-индекс (name)` : для полнотекстового поиска
 }
 
 entity "orders" as orders {
@@ -20,7 +24,19 @@ entity "orders" as orders {
     status
     created_at
     total_amount
+    note "70% DELIVERED"
+    
+    .. Индексы ..
+    `Составной B-Tree (user_id, status, created_at)` : для фильтрации заказов
+    `Bitmap-механизм` : для оптимизации комбинированных фильтров
 }
 
 products ||--o{ orders : "seller_id"
+
+note right of orders
+  <b>Для отчёта C (Топ-100 продавцов):</b>
+  Индекс НЕ рекомендуется
+  (status неселективен, 70% DELIVERED)
+end note
+
 @enduml
