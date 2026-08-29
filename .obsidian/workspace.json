@@ -27,6 +27,20 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
+          },
+          {
+            "id": "18ea1629148978a8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "Homework_4.1/solution.md",
                 "mode": "source",
                 "source": false
@@ -36,21 +50,19 @@
             }
           },
           {
-            "id": "d653781411bd136f",
+            "id": "3b4648da41bd27bb",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Homework_4/Solution.md",
-                "mode": "source",
-                "source": false
+                "file": "Homework_5/schema.png"
               },
-              "icon": "lucide-file",
-              "title": "Solution"
+              "icon": "lucide-image",
+              "title": "schema"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -217,29 +229,34 @@
       "bases:Создать новую базу": false
     }
   },
-  "active": "9e268c4c250e12e9",
+  "active": "18ea1629148978a8",
   "lastOpenFiles": [
+    "Homework_4.1/spec.md",
+    "Homework_5/Solution.md",
+    "Homework_5/spec.md",
+    "Homework_5/schema.png",
+    "Homework_4.1/schema_after.svg",
     "Homework_4.1/schema_before.svg",
     "Homework_4.1/solution.md",
+    "Homework_4/Solution.md",
+    "out/Homework_5/schema/schema.png",
+    "out/Homework_5/schema",
+    "out/Homework_5",
+    "out",
+    "Homework_5/schema.puml",
+    "README.md",
+    "Homework_5",
     "out/Homework_4.1/schema_before/schema_before.svg",
     "out/Homework_4.1/schema_before",
-    "Homework_4.1/schema_after.svg",
     "out/Homework_4.1/schema_after/schema_after.svg",
     "out/Homework_4.1/schema_after",
     "out/Homework_4.1",
-    "out",
     "Homework_4.1/schema_after.puml",
     "Homework_4.1/schema_before.puml",
-    "Homework_4/Solution.md",
     "Homework_4/Spec.md",
     "Homework_4/Диаграмма таблиц.svg",
     "Homework_4/UML diagram.svg",
     "out/Homework_4/UML diagram/UML diagram.svg",
-    "out/Homework_4/UML diagram",
-    "out/Homework_4",
-    "README.md",
-    "Homework_4/Без названия.md",
-    "Homework_4/UML diagram.puml",
-    "Homework_4/UML diagram"
+    "Homework_4/Без названия.md"
   ]
 }
