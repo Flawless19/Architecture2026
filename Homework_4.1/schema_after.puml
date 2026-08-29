@@ -1,0 +1,34 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam backgroundColor #FEFEFE
+skinparam component {
+  BackgroundColor #E0E0E0
+  BorderColor #757575
+  FontColor #212121
+}
+skinparam database {
+  BackgroundColor #E0E0E0
+  BorderColor #757575
+  FontColor #212121
+}
+skinparam note {
+  BackgroundColor #F5F5F5
+  BorderColor #9E9E9E
+  FontColor #212121
+}
+
+component "МаркетХаб"
+
+database "PostgreSQL\n(мастер)" as Master
+database "PostgreSQL\n(реплика)" as Replica
+
+МаркетХаб --> Master : "запись/чтение"
+МаркетХаб --> Replica : "чтение"
+
+Master --> Replica : "репликация"
+
+note right of Replica
+  <b>Отчеты</b>
+  собираются с реплики
+end note
+@enduml

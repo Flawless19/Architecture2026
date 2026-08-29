@@ -1,0 +1,9 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam backgroundColor #FEFEFE
+
+component "МаркетХаб"
+database "PostgreSQL"
+
+МаркетХаб --> PostgreSQL
+@enduml

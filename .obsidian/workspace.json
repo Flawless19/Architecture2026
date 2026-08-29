@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Homework_4/Solution.md",
+                "file": "Homework_4.1/solution.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Solution"
+              "title": "solution"
             }
           },
           {
@@ -219,19 +219,27 @@
   },
   "active": "9e268c4c250e12e9",
   "lastOpenFiles": [
+    "Homework_4.1/schema_before.svg",
+    "Homework_4.1/solution.md",
+    "out/Homework_4.1/schema_before/schema_before.svg",
+    "out/Homework_4.1/schema_before",
+    "Homework_4.1/schema_after.svg",
+    "out/Homework_4.1/schema_after/schema_after.svg",
+    "out/Homework_4.1/schema_after",
+    "out/Homework_4.1",
+    "out",
+    "Homework_4.1/schema_after.puml",
+    "Homework_4.1/schema_before.puml",
+    "Homework_4/Solution.md",
     "Homework_4/Spec.md",
     "Homework_4/Диаграмма таблиц.svg",
-    "Homework_4/Solution.md",
     "Homework_4/UML diagram.svg",
     "out/Homework_4/UML diagram/UML diagram.svg",
     "out/Homework_4/UML diagram",
     "out/Homework_4",
-    "out",
     "README.md",
     "Homework_4/Без названия.md",
     "Homework_4/UML diagram.puml",
-    "Homework_4/UML diagram",
-    "Homework_4/UML diagramm",
-    "Homework_4"
+    "Homework_4/UML diagram"
   ]
 }
