@@ -16,9 +16,6 @@ System_Ext(push_service, "Push-сервис", "Отправка push-уведо�
 
 Container_Boundary(marketplace, "МаркетХаб") {
     Container(web_app, "Веб-приложение", "React, TypeScript", "Обеспечивает UI для покупателей, продавцов и админов")
-    Container(mobile_app, "Мобильное приложение", "React Native, TypeScript", "Предоставляет интерфейс для покупателей")
-    Container(ext_inegration, "Интеграции с внешними сервисами", "Неизвестно", "Другие бэкенд сервисы, интегрирующиеся с МаркетХабом")
-    Container(api_gateway, "API Gateway", "Kong / Nginx", "Маршрутизация запросов, аутентификация, rate limiting")
     Container(auth_service, "Сервис авторизации", "Spring Boot, Java", "Аутентификация, выдача и валидация токенов, управление сессиями")
     Container(catalog_service, "Сервис каталога", "Spring Boot, Java", "Управление товарами и поиск")
     Container(order_service, "Сервис заказов", "Spring Boot, Java", "Обработка заказов и статусов")
@@ -42,30 +39,19 @@ Container_Boundary(marketplace, "МаркетХаб") {
 
 ' Связи пользователей с UI
 Rel(buyer, web_app, "Использует", "HTTPS")
-Rel(buyer, mobile_app, "Использует", "HTTPS")
 Rel(seller, web_app, "Управляет товарами", "HTTPS")
 Rel(admin, web_app, "Работает с заказами", "HTTPS")
 
-
 ' UI → Auth Service (логин/регистрация)
 Rel(web_app, auth_service, "Логин/регистрация", "HTTPS/JSON")
-Rel(mobile_app, auth_service, "Логин/регистрация", "HTTPS/JSON")
 
-' UI → API Gateway (с токеном после авторизации)
-Rel(web_app, api_gateway, "Отправляет запросы с токеном", "HTTPS/JSON")
-Rel(mobile_app, api_gateway, "Отправляет запросы с токеном", "HTTPS/JSON")
-Rel(ext_inegration, api_gateway, "Отправляет запросы с токеном", "HTTPS/JSON")
-
-' API Gateway → Auth Service (валидация токена)
-Rel(api_gateway, auth_service, "Валидирует токен", "gRPC")
-
-' API Gateway → Бизнес-сервисы (после валидации)
-Rel(api_gateway, user_service, "Маршрутизирует запросы", "gRPC")
-Rel(api_gateway, catalog_service, "Маршрутизирует запросы", "gRPC")
-Rel(api_gateway, order_service, "Маршрутизирует запросы", "gRPC")
-Rel(api_gateway, payment_service, "Маршрутизирует запросы", "gRPC")
-Rel(api_gateway, rating_service, "Маршрутизирует запросы", "gRPC")
-Rel(api_gateway, event_service, "Маршрутизирует запросы", "gRPC")
+' UI → Бизнес-сервисы (с токеном после авторизации)
+Rel(web_app, user_service, "Отправляет запросы с токеном", "HTTPS/JSON")
+Rel(web_app, catalog_service, "Отправляет запросы с токеном", "HTTPS/JSON")
+Rel(web_app, order_service, "Отправляет запросы с токеном", "HTTPS/JSON")
+Rel(web_app, payment_service, "Отправляет запросы с токеном", "HTTPS/JSON")
+Rel(web_app, rating_service, "Отправляет запросы с токеном", "HTTPS/JSON")
+Rel(web_app, event_service, "Отправляет запросы с токеном", "HTTPS/JSON")
 
 ' Auth Service → Redis
 Rel(auth_service, redis_auth, "Читает/пишет токены и сессии", "Redis")
@@ -83,7 +69,7 @@ Rel(postgres_db_order, postgres_db_order_replica, "Синхронная репл
 
 ' Кэширование каталога
 Rel(catalog_service, cache_catalog, "Кэширует популярные товары и результаты поиска", "Redis")
-Rel(api_gateway, cache_catalog, "Кэширует ответы API для каталога", "Redis")
+Rel(web_app, cache_catalog, "Кэширует ответы API для каталога", "Redis")
 
 ' Сервис заказов публикует события в очередь
 Rel(order_service, message_queue, "Публикует события о заказах", "AMQP")

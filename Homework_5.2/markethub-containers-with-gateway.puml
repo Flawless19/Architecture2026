@@ -13,11 +13,11 @@ System_Ext(delivery, "Службы доставки", "Доставка зака
 System_Ext(crm, "CRM", "Хранение профилей клиентов и истории обращений")
 System_Ext(email_service, "Email-сервис", "Отправка email-писем")
 System_Ext(push_service, "Push-сервис", "Отправка push-уведомлений")
+System_Ext(ext_inegration, "Интеграции с внешними сервисами", "Другие бэкенд сервисы, интегрирующиеся с МаркетХабом")
 
 Container_Boundary(marketplace, "МаркетХаб") {
     Container(web_app, "Веб-приложение", "React, TypeScript", "Обеспечивает UI для покупателей, продавцов и админов")
     Container(mobile_app, "Мобильное приложение", "React Native, TypeScript", "Предоставляет интерфейс для покупателей")
-    Container(ext_inegration, "Интеграции с внешними сервисами", "Неизвестно", "Другие бэкенд сервисы, интегрирующиеся с МаркетХабом")
     Container(api_gateway, "API Gateway", "Kong / Nginx", "Маршрутизация запросов, аутентификация, rate limiting")
     Container(auth_service, "Сервис авторизации", "Spring Boot, Java", "Аутентификация, выдача и валидация токенов, управление сессиями")
     Container(catalog_service, "Сервис каталога", "Spring Boot, Java", "Управление товарами и поиск")
