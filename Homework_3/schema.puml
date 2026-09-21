@@ -1,0 +1,87 @@
+@startuml
+!NEW_C4_STYLE = 1
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title МаркетХаб - диаграмма контейнеров (монолит)
+
+Person(buyer, "Покупатель", "Просматривает каталог, оформляет заказы")
+Person(seller, "Продавец", "Размещает товары, управляет ценами и остатками")
+
+System_Ext(bank, "Платежный шлюз", "Обработка платежей")
+System_Ext(delivery_cdek, "Службы доставки CDEK", "Доставка заказов покупателю")
+System_Ext(delivery_boxberry, "Службы доставки Boxberry ", "Доставка заказов покупателю")
+System_Ext(crm, "CRM", "Хранение профилей клиентов и истории обращений")
+System_Ext(email_service, "Email-сервис", "Отправка email-писем")
+System_Ext(push_service, "Push-сервис", "Отправка push-уведомлений")
+
+Container_Boundary(marketplace, "МаркетХаб") {
+    Container(web_app, "Веб-приложение_покупатель", "React, TypeScript", "Обеспечивает UI для покупателей и админов")
+    Container(web_app_seller, "Веб-приложение_продавец", "React, TypeScript", "Обеспечивает UI для продавцов")
+    Container(mobile_app, "Мобильное приложение_покупатель", "React Native, TypeScript", "Предоставляет интерфейс для покупателей")
+    Container(bff_for_mobile_app, "BFF для мобильного приложения покупателя", "Node.js, TypeScript", "Агрегирует данные для мобильного приложения покупателя")
+    Container(api_gateway, "API Gateway", "Kong / Nginx", "Маршрутизация запросов, аутентификация, rate limiting")
+    
+    Container(monolith, "МаркетХаб (монолит)", "Spring Boot, Java", "Каталог, заказы, платежи, пользователи, уведомления")
+
+    Container(DeliveryService, "Сервис оркестрации доставки", "Spring Boot, Java", "Оркестрация заявок на доставку")
+    Container(InventoryService, "Сервис резервирования товара", "Spring Boot, Java", "Резервирование товара")
+    Container(NotificationService, "Сервис уведомлений", "Spring Boot, Java", "Рассылка Email, push, SMS уведомлений покупателям и продавцам")
+    Container(AnalyticalService, "Сервис аналитики", "Spring Boot, Java", "Построение аналитических отчетов для продавцов")
+    
+    ContainerDb(postgres_db, "База данных", "PostgreSQL", "Товары, заказы, клиенты и прочие данные")
+    ContainerDb(postgres_db_analytical, "База данных для аналитики", "PostgreSQL", "Товары, заказы, клиенты и прочие данные")
+    ContainerDb(cache_catalog, "Кэш каталога", "Redis", "Кэширование популярных товаров, категорий и результатов поиска")
+
+    ContainerQueue(message_queue, "Очередь сообщений", "RabbitMQ", "Хранит события заказов для асинхронной обработки")
+}
+
+Container_Ext(rate_limiter_cdek, "Rate Limiter CDEK", "Envoy / Nginx", "Ограничение частоты запросов к API CDEK (собственные лимиты)")
+Container_Ext(rate_limiter_boxberry, "Rate Limiter Boxberry", "Envoy / Nginx", "Ограничение частоты запросов к API Boxberry (собственные лимиты)")
+
+' Связи пользователей с UI
+Rel(buyer, web_app, "Использует", "HTTPS")
+Rel(buyer, mobile_app, "Использует", "HTTPS")
+Rel(seller, web_app_seller, "Управляет товарами", "HTTPS")
+
+' UI обращается к API Gateway
+Rel(web_app, api_gateway, "Отправляет запросы", "HTTPS/JSON")
+Rel(web_app_seller, api_gateway, "Отправляет запросы", "HTTPS/JSON")
+Rel(mobile_app, api_gateway, "Отправляет запросы", "HTTPS/JSON")
+
+' API Gateway маршрутизирует запросы
+Rel(api_gateway, monolith, "Маршрутизирует запросы", "gRPC")
+Rel(api_gateway, bff_for_mobile_app, "Маршрутизирует запросы", "gRPC")
+Rel(monolith, InventoryService, "Маршрутизирует запросы", "gRPC")
+
+' BFF обращается к монолиту
+Rel(bff_for_mobile_app, monolith, "Отправляет запросы", "gRPC")
+
+' Публицация событий
+Rel(monolith, message_queue, "Маршрутизирует запросы", "gRPC")
+Rel(monolith, message_queue, "Маршрутизирует запросы", "gRPC")
+Rel(monolith, message_queue, "Маршрутизирует запросы", "gRPC")
+
+' Публицация событий
+Rel(message_queue, AnalyticalService, "Маршрутизирует запросы", "AMQP")
+Rel(message_queue, DeliveryService, "Маршрутизирует запросы", "AMQP")
+Rel(message_queue, NotificationService, "Маршрутизирует запросы", "AMQP")
+
+
+
+' Сервисы работают с БД и кэшем
+Rel(monolith, postgres_db, "Читает/пишет данные", "JDBC")
+Rel(InventoryService, postgres_db, "Читает/пишет данные", "JDBC")
+Rel(AnalyticalService, postgres_db_analytical, "Читает/пишет данные", "JDBC")
+Rel(monolith, cache_catalog, "Кэширует каталог", "Redis")
+
+' Внешние системы
+Rel(monolith, bank, "Выполняет платежи", "REST API")
+Rel(DeliveryService, rate_limiter_cdek, "Отправляет запросы", "HTTPS")
+Rel(DeliveryService, rate_limiter_boxberry, "Отправляет запросы", "HTTPS")
+Rel(rate_limiter_cdek, delivery_cdek, "Передаёт заказы на доставку", "gRPC")
+Rel(rate_limiter_boxberry, delivery_boxberry, "Передаёт заказы на доставку", "gRPC")
+Rel(monolith, crm, "Синхронизирует профили клиентов", "REST API")
+Rel(NotificationService, email_service, "Отправляет email", "SMTP/REST")
+Rel(NotificationService, push_service, "Отправляет push", "FCM/APNs")
+
+@enduml
