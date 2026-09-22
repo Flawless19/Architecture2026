@@ -1,0 +1,146 @@
+@startuml
+title Sequence: Оформление заказа и доставка (CDEK → Boxberry, retry до 5 раз)
+
+actor "Покупатель" as Buyer
+participant "Веб-приложение\nпокупателя" as WebApp
+participant "API Gateway" as Gateway
+participant "МаркетХаб\n(монолит)" as Monolith
+queue "Очередь\nсообщений" as Queue
+participant "Сервис оркестрации\nдоставки" as Delivery
+participant "Rate Limiter\nCDEK" as RLC
+participant "API CDEK" as CDEK
+participant "Rate Limiter\nBoxberry" as RLB
+participant "API Boxberry" as Boxberry
+
+== Оформление заказа ==
+
+Buyer -> WebApp : Оформить заказ
+activate WebApp
+WebApp -> Gateway : POST /orders (корзина, адрес)
+activate Gateway
+Gateway -> Gateway : Аутентификация,\nrate limiting
+Gateway -> Monolith : POST /orders
+activate Monolith
+
+Monolith -> Monolith : Создать заказ\n(статус CREATED)
+Monolith -> Monolith : Сохранить заказ\nв БД
+Monolith --> Gateway : 201 Created + orderId
+deactivate Monolith
+Gateway --> WebApp : 201 Created + orderId
+deactivate Gateway
+WebApp --> Buyer : Заказ оформлен
+deactivate WebApp
+
+== Передача заказа в оркестрацию доставки ==
+
+Monolith -> Queue : Публикация события\nOrderCreated
+activate Queue
+Queue -> Delivery : OrderCreated
+deactivate Queue
+activate Delivery
+
+== Попытка доставки: CDEK → при неудаче Boxberry ==
+
+group Попытка доставки (первая + до 5 retry)
+    note right of Delivery : Интервалы между retry:\n1 мин → 5 мин → 30 мин → 5 ч → 12 ч
+
+    == Шаг 1: CDEK (основная служба) ==
+
+    Delivery -> RLC : POST /delivery/cdek\n(заявка на доставку)
+    activate RLC
+    RLC -> RLC : Проверить счётчик
+
+    alt CDEK доступен и лимит не превышен
+        RLC -> CDEK : Передать заявку
+        activate CDEK
+        CDEK --> RLC : 200 OK + трек-номер
+        deactivate CDEK
+        RLC --> Delivery : 200 OK + трек-номер
+        deactivate RLC
+        note right of Delivery : Доставка оформлена\nчерез CDEK
+    else Лимит превышен или CDEK недоступен
+        RLC --> Delivery : 429 Too Many Requests\n/ 503 Service Unavailable
+        deactivate RLC
+        note right of Delivery : CDEK недоступен —\nпробуем Boxberry
+
+        == Шаг 2: Boxberry (резервная служба) ==
+
+        Delivery -> RLB : POST /delivery/boxberry\n(заявка на доставку)
+        activate RLB
+        RLB -> RLB : Проверить счётчик
+
+        alt Boxberry доступен и лимит не превышен
+            RLB -> Boxberry : Передать заявку
+            activate Boxberry
+            Boxberry --> RLB : 200 OK + трек-номер
+            deactivate Boxberry
+            RLB --> Delivery : 200 OK + трек-номер
+            deactivate RLB
+            note right of Delivery : Доставка оформлена\nчерез Boxberry
+        else Boxberry недоступен или лимит превышен
+            RLB --> Delivery : 429 / 503
+            deactivate RLB
+            note right of Delivery : Обе службы недоступны.\nЖдём интервал и\nповторяем попытку\n(CDEK → Boxberry)
+        end
+    end
+end
+
+== Все попытки исчерпаны ==
+
+note right of Delivery : 5 retry исчерпаны,\nобе службы недоступны.\nЗаказ помечается\nдля ручного разбора.
+Delivery -> Delivery : Пометить заказ\nкак требующий\nручного разбора
+
+Delivery -> Queue : Публикация события\nDeliveryCreated
+activate Queue
+deactivate Queue
+
+== Синхронный опрос статуса доставки ==
+
+loop Периодический опрос статуса\n(пока статус не «доставлено»)
+    Delivery -> RLC : GET /delivery/cdek/{trackId}\n(статус перевозки)
+    activate RLC
+    RLC -> RLC : Проверить счётчик
+
+    alt Лимит не превышен и CDEK доступен
+        RLC -> CDEK : GET /status/{trackId}
+        activate CDEK
+        CDEK --> RLC : 200 OK + статус\n(принят / в пути / доставлен)
+        deactivate CDEK
+        RLC --> Delivery : 200 OK + статус
+        deactivate RLC
+        note right of Delivery : Статус получен\nсинхронно
+    else Лимит превышен или CDEK недоступен
+        RLC --> Delivery : 429 / 503
+        deactivate RLC
+        note right of Delivery : Повторим опрос\nпозже
+    end
+
+    opt Если доставка оформлена через Boxberry
+        Delivery -> RLB : GET /delivery/boxberry/{trackId}\n(статус перевозки)
+        activate RLB
+        RLB -> Boxberry : GET /status/{trackId}
+        activate Boxberry
+        Boxberry --> RLB : 200 OK + статус
+        deactivate Boxberry
+        RLB --> Delivery : 200 OK + статус
+        deactivate RLB
+    end
+
+    Delivery -> Queue : Публикация события\nDeliveryStatusChanged
+    activate Queue
+    deactivate Queue
+end
+
+deactivate Delivery
+
+== Монолит как потребитель событий доставки ==
+
+activate Queue
+Queue -> Monolith : DeliveryStatusChanged
+deactivate Queue
+activate Monolith
+Monolith -> Monolith : Обновить статус\nдоставки в заказе
+Monolith -> Monolith : Сохранить\nв БД
+deactivate Monolith
+
+@enduml
